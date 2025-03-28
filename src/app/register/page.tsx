@@ -72,19 +72,19 @@ export default function RegisterPage() {
 
   const onSubmit: SubmitHandler<FormValues> = async (data) => {
     try {
-      const response = await fetch('/api/register', {
+      const response = await fetch('/api/users', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
 
-      console.error('onSubmit', data)
+      const result = await response.json();
 
-      if (response.ok) {
-        router.push('/dashboard');
+      if (result.redirectTo) {
+        router.push(result.redirectTo); // 执行跳转[5](@ref)
       } else {
-        const errorData = await response.json();
-        alert(`注册失败: ${errorData.message}`);
+        // 处理其他响应
+        alert('异常')
       }
     } catch (error) {
       console.error('Registration error:', error);

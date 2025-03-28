@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package myuserrpc;
+option go_package="./myuserrpc";
+
+message Request {
+  string ping = 1;
+  string title = 2;
+}
+
+message Response {
+  string pong = 1;
+}
+
+// 错误码枚举定义
+enum ErrorCode {
+  SUCCESS = 0;            // 成功
+  INVALID_ARGUMENT = 1;   // 参数无效
+  ALREADY_EXISTS = 2;     // 用户已存在
+  INTERNAL_ERROR = 3;     // 服务器内部错误
+  UNAUTHORIZED = 4;       // 未授权
+  NOT_FOUND = 5;          // 资源未找到
+}
+
+message UserResponse {
+  ErrorCode code = 1;
+}
+
+message User {
+  string username = 1;
+  string password = 2;
+}
+message AddUserRequest {
+  string username = 1;
+  string password = 2;
+  string avatarUrl = 3;
+  string email = 4;
+}
+
+message CheckUsernameAndPasswordRsp {
+  bool valid = 1;
+}
+
+message GetUserInfoReq {
+  string token = 1;
+}
+
+
+message GetUserInfoResp {
+  string username = 1;
+  string avatarUrl = 2;
+  string email = 3;
+}
+service Myuserrpc {
+  rpc Ping(Request) returns(Response);
+  rpc AddUser(AddUserRequest) returns(UserResponse);
+  rpc GetUserInfo(GetUserInfoReq) returns(GetUserInfoResp);
+  rpc CheckUsernameAndPassword(User) returns(CheckUsernameAndPasswordRsp);
+
+}
