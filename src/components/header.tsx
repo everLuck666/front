@@ -8,7 +8,7 @@ export default function Header() {
           MyForum
         </Link>
         <div className="space-x-6">
-          <Link href="/posts" className="hover:text-blue-600">帖子</Link>
+          <Link href="/forum/post" className="hover:text-blue-600 text-black">创建帖子</Link>
           <Link href="/categories" className="hover:text-blue-600">版块</Link>
         </div>
       </nav>

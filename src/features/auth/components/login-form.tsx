@@ -1,22 +1,23 @@
 // src/features/auth/components/login-form.tsx
 'use client';
-import { useFormState } from 'react-dom';
+// import { useFormState } from 'react-dom';
+import { useActionState } from 'react';
 import { authenticate } from '@/features/auth/actions';
 
 export default function LoginForm() {
-  const [errorMessage, dispatch] = useFormState(authenticate, undefined);
+  const [errorMessage, dispatch, isPending] = useActionState(authenticate, undefined);
 
   return (
     <form action={dispatch} className="space-y-6">
       <div>
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          邮箱
+          用户名称
         </label>
         <input
-          name="email"
-          type="email"
+          name="username"
+          type="username"
           required
-          className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
         />
       </div>
 
@@ -28,13 +29,13 @@ export default function LoginForm() {
           name="password"
           type="password"
           required
-          className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-black"
         />
       </div>
 
-      {errorMessage && (
+      {/* {errorMessage && (
         <div className="text-red-500 text-sm">{errorMessage}</div>
-      )}
+      )} */}
 
       <button
         type="submit"

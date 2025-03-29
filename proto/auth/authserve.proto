@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+package authserve;
+option go_package="./authserve";
+
+message Request {
+  string ping = 1;
+}
+
+message Response {
+  string pong = 1;
+}
+
+message LoginReq {
+  string username = 1;
+  string password = 2;
+}
+
+message TokenResp {
+  string token = 1;
+  int64 expire = 2;
+}
+
+message VerifyTokenReq {
+  string token = 1;
+}
+
+message VerifyTokenRsp {
+  bool flag = 1;
+}
+
+service Authserve {
+  rpc Ping(Request) returns(Response);
+  rpc GenerateToken(LoginReq) returns (TokenResp);
+  rpc VerifyToken (VerifyTokenReq) returns (VerifyTokenRsp);
+  rpc ParseToken(ParseTokenReq) returns (ParseTokenRsp);  // 新增方法
+}
+
+message ParseTokenReq {
+  string token = 1;
+}
+
+message ParseTokenRsp {
+  JwtData data = 1;
+}
+
+
+// 新增字段定义
+message JwtData {
+  string userId = 1;      // 用户唯一标识
+  string username = 2;     // 用户名
+  int64 exp = 3;   // 过期时间戳
+  map<string, string> claims = 4;  // 其他自定义字段
+}

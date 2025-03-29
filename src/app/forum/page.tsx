@@ -2,6 +2,25 @@ import PostList from "@/components/post-list";
 
 
 export async function getPosts() {
+
+  const response = await fetch('http://localhost:3000/api/getposts', {
+    method: 'GET',
+    headers: { 'Content-Type': 'application/json' },
+  });
+
+  
+  const result = await response.json();
+
+  // return result?.data?.list;
+
+  const { data } = result || {};
+  const { list } = data || {};
+  console.error('================----ee------', list)
+
+  if (list) return list;
+
+  // console.error('===========getPosts', result)
+
     // const posts = await prisma.post.findMany({
     //   include: { 
     //     author: true,
@@ -36,10 +55,11 @@ export async function getPosts() {
   }
 export default async function FormPage() {
     const posts = await getPosts();
+    console.error('FormPage====', posts)
 
 
     return (
-        <section className="py-8 w-[80%] mx-auto mt-4">
+        <section className="w-[80%] mx-auto">
           <PostList posts={posts} />
         </section>
       );

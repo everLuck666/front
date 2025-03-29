@@ -13,7 +13,7 @@ export default function PostPage() {
     setValue,
     formState: { errors }
   } = useForm({
-    resolver: zodResolver(postSchema)
+    // resolver: zodResolver(postSchema)
   });
 
   // 富文本内容更新处理
@@ -29,9 +29,13 @@ export default function PostPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
+
+      const result = await response.json();
+
+      console.error('dududdu', result)
       
-      if (response.ok) {
-        router.push('/forum');
+      if (result?.code === 200) {
+        router.push(result.redirectTo);
       }
     } catch (error) {
       console.error('提交失败:', error);

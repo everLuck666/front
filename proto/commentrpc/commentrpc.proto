@@ -1,0 +1,46 @@
+syntax = "proto3";
+
+package commentrpc;
+option go_package="./commentrpc";
+
+message Request {
+  string ping = 1;
+}
+
+message Response {
+  string pong = 1;
+}
+
+service Commentrpc {
+  rpc Ping(Request) returns(Response);
+  rpc CreatePost (CreatePostReq) returns (CreatePostResp);
+  rpc GetPostList (GetPostListReq) returns (GetPostListResp);
+}
+
+message CreatePostReq {
+  string title = 1;
+  string content = 2;
+}
+
+message CreatePostResp {
+  int64 postId = 1;
+}
+
+message GetPostListReq {
+  int32 page = 1;
+  int32 pageSize = 2;
+}
+
+message GetPostListResp {
+  repeated PostItem list = 1;
+}
+
+message PostItem {
+  int64 id = 1;
+  string title = 2;
+  string content = 3;
+  string userId = 4;
+  int64 categoryId = 5;    // 新增字段
+  string createdAt = 6;    // 时间转换为字符串
+  string avatarUrl = 7;
+}
