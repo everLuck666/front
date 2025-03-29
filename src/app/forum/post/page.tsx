@@ -13,7 +13,7 @@ export default function PostPage() {
     setValue,
     formState: { errors }
   } = useForm({
-    // resolver: zodResolver(postSchema)
+    resolver: zodResolver(postSchema)
   });
 
   // 富文本内容更新处理
@@ -43,7 +43,7 @@ export default function PostPage() {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-black">
+    <div className="max-w-4xl mx-auto p-6 bg-white">
       <h1 className="text-2xl font-bold mb-6">发布新话题</h1>
       
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -56,6 +56,18 @@ export default function PostPage() {
           />
           {errors.title && (
             <p className="text-red-500 text-sm mt-1">{errors.title.message}</p>
+          )}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium mb-2">标签</label>
+          <input
+            {...register('tag')}
+            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            placeholder="请输入标签"
+          />
+          {errors.tag && (
+            <p className="text-red-500 text-sm mt-1">{errors.tag.message}</p>
           )}
         </div>
 

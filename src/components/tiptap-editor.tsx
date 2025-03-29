@@ -60,8 +60,8 @@ export function Editor({
   }, [editor]);
 
   return (
-    <div className={`border rounded-lg p-4 ${className}`}>
-      <EditorContent editor={editor} />
+    <div className={`flex flex-1 border rounded-lg p-4 ${className}`}>
+      <EditorContent editor={editor}  className="flex flex-1"/>
     </div>
   );
 }

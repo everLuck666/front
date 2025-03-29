@@ -37,6 +37,8 @@ export default function Tag({
       className={cn(
         'inline-flex items-center font-medium transition-colors',
         'duration-200 ease-in-out hover:scale-[1.02]',
+        // 新增 4 个关键类
+        'overflow-hidden whitespace-nowrap text-ellipsis max-w-[200px]', 
         {
           'text-xs px-1.5 py-0.5': size === 'xs',  // 新增超小尺寸
           'text-sm px-2 py-1': size === 'sm',

@@ -140,11 +140,149 @@ export namespace commentrpc {
             return Response.deserialize(bytes);
         }
     }
+    export class GetPostByIdReq extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            postId?: number;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("postId" in data && data.postId != undefined) {
+                    this.postId = data.postId;
+                }
+            }
+        }
+        get postId() {
+            return pb_1.Message.getFieldWithDefault(this, 1, 0) as number;
+        }
+        set postId(value: number) {
+            pb_1.Message.setField(this, 1, value);
+        }
+        static fromObject(data: {
+            postId?: number;
+        }): GetPostByIdReq {
+            const message = new GetPostByIdReq({});
+            if (data.postId != null) {
+                message.postId = data.postId;
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                postId?: number;
+            } = {};
+            if (this.postId != null) {
+                data.postId = this.postId;
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.postId != 0)
+                writer.writeInt64(1, this.postId);
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): GetPostByIdReq {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new GetPostByIdReq();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        message.postId = reader.readInt64();
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): GetPostByIdReq {
+            return GetPostByIdReq.deserialize(bytes);
+        }
+    }
+    export class GetPostByIdResp extends pb_1.Message {
+        #one_of_decls: number[][] = [];
+        constructor(data?: any[] | {
+            postItem?: PostItem;
+        }) {
+            super();
+            pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
+            if (!Array.isArray(data) && typeof data == "object") {
+                if ("postItem" in data && data.postItem != undefined) {
+                    this.postItem = data.postItem;
+                }
+            }
+        }
+        get postItem() {
+            return pb_1.Message.getWrapperField(this, PostItem, 1) as PostItem;
+        }
+        set postItem(value: PostItem) {
+            pb_1.Message.setWrapperField(this, 1, value);
+        }
+        get has_postItem() {
+            return pb_1.Message.getField(this, 1) != null;
+        }
+        static fromObject(data: {
+            postItem?: ReturnType<typeof PostItem.prototype.toObject>;
+        }): GetPostByIdResp {
+            const message = new GetPostByIdResp({});
+            if (data.postItem != null) {
+                message.postItem = PostItem.fromObject(data.postItem);
+            }
+            return message;
+        }
+        toObject() {
+            const data: {
+                postItem?: ReturnType<typeof PostItem.prototype.toObject>;
+            } = {};
+            if (this.postItem != null) {
+                data.postItem = this.postItem.toObject();
+            }
+            return data;
+        }
+        serialize(): Uint8Array;
+        serialize(w: pb_1.BinaryWriter): void;
+        serialize(w?: pb_1.BinaryWriter): Uint8Array | void {
+            const writer = w || new pb_1.BinaryWriter();
+            if (this.has_postItem)
+                writer.writeMessage(1, this.postItem, () => this.postItem.serialize(writer));
+            if (!w)
+                return writer.getResultBuffer();
+        }
+        static deserialize(bytes: Uint8Array | pb_1.BinaryReader): GetPostByIdResp {
+            const reader = bytes instanceof pb_1.BinaryReader ? bytes : new pb_1.BinaryReader(bytes), message = new GetPostByIdResp();
+            while (reader.nextField()) {
+                if (reader.isEndGroup())
+                    break;
+                switch (reader.getFieldNumber()) {
+                    case 1:
+                        reader.readMessage(message.postItem, () => message.postItem = PostItem.deserialize(reader));
+                        break;
+                    default: reader.skipField();
+                }
+            }
+            return message;
+        }
+        serializeBinary(): Uint8Array {
+            return this.serialize();
+        }
+        static deserializeBinary(bytes: Uint8Array): GetPostByIdResp {
+            return GetPostByIdResp.deserialize(bytes);
+        }
+    }
     export class CreatePostReq extends pb_1.Message {
         #one_of_decls: number[][] = [];
         constructor(data?: any[] | {
             title?: string;
             content?: string;
+            tag?: string;
         }) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -154,6 +292,9 @@ export namespace commentrpc {
                 }
                 if ("content" in data && data.content != undefined) {
                     this.content = data.content;
+                }
+                if ("tag" in data && data.tag != undefined) {
+                    this.tag = data.tag;
                 }
             }
         }
@@ -169,9 +310,16 @@ export namespace commentrpc {
         set content(value: string) {
             pb_1.Message.setField(this, 2, value);
         }
+        get tag() {
+            return pb_1.Message.getFieldWithDefault(this, 3, "") as string;
+        }
+        set tag(value: string) {
+            pb_1.Message.setField(this, 3, value);
+        }
         static fromObject(data: {
             title?: string;
             content?: string;
+            tag?: string;
         }): CreatePostReq {
             const message = new CreatePostReq({});
             if (data.title != null) {
@@ -180,18 +328,25 @@ export namespace commentrpc {
             if (data.content != null) {
                 message.content = data.content;
             }
+            if (data.tag != null) {
+                message.tag = data.tag;
+            }
             return message;
         }
         toObject() {
             const data: {
                 title?: string;
                 content?: string;
+                tag?: string;
             } = {};
             if (this.title != null) {
                 data.title = this.title;
             }
             if (this.content != null) {
                 data.content = this.content;
+            }
+            if (this.tag != null) {
+                data.tag = this.tag;
             }
             return data;
         }
@@ -203,6 +358,8 @@ export namespace commentrpc {
                 writer.writeString(1, this.title);
             if (this.content.length)
                 writer.writeString(2, this.content);
+            if (this.tag.length)
+                writer.writeString(3, this.tag);
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -217,6 +374,9 @@ export namespace commentrpc {
                         break;
                     case 2:
                         message.content = reader.readString();
+                        break;
+                    case 3:
+                        message.tag = reader.readString();
                         break;
                     default: reader.skipField();
                 }
@@ -464,6 +624,7 @@ export namespace commentrpc {
             categoryId?: number;
             createdAt?: string;
             avatarUrl?: string;
+            tag?: string;
         }) {
             super();
             pb_1.Message.initialize(this, Array.isArray(data) ? data : [], 0, -1, [], this.#one_of_decls);
@@ -488,6 +649,9 @@ export namespace commentrpc {
                 }
                 if ("avatarUrl" in data && data.avatarUrl != undefined) {
                     this.avatarUrl = data.avatarUrl;
+                }
+                if ("tag" in data && data.tag != undefined) {
+                    this.tag = data.tag;
                 }
             }
         }
@@ -533,6 +697,12 @@ export namespace commentrpc {
         set avatarUrl(value: string) {
             pb_1.Message.setField(this, 7, value);
         }
+        get tag() {
+            return pb_1.Message.getFieldWithDefault(this, 8, "") as string;
+        }
+        set tag(value: string) {
+            pb_1.Message.setField(this, 8, value);
+        }
         static fromObject(data: {
             id?: number;
             title?: string;
@@ -541,6 +711,7 @@ export namespace commentrpc {
             categoryId?: number;
             createdAt?: string;
             avatarUrl?: string;
+            tag?: string;
         }): PostItem {
             const message = new PostItem({});
             if (data.id != null) {
@@ -564,6 +735,9 @@ export namespace commentrpc {
             if (data.avatarUrl != null) {
                 message.avatarUrl = data.avatarUrl;
             }
+            if (data.tag != null) {
+                message.tag = data.tag;
+            }
             return message;
         }
         toObject() {
@@ -575,6 +749,7 @@ export namespace commentrpc {
                 categoryId?: number;
                 createdAt?: string;
                 avatarUrl?: string;
+                tag?: string;
             } = {};
             if (this.id != null) {
                 data.id = this.id;
@@ -597,6 +772,9 @@ export namespace commentrpc {
             if (this.avatarUrl != null) {
                 data.avatarUrl = this.avatarUrl;
             }
+            if (this.tag != null) {
+                data.tag = this.tag;
+            }
             return data;
         }
         serialize(): Uint8Array;
@@ -617,6 +795,8 @@ export namespace commentrpc {
                 writer.writeString(6, this.createdAt);
             if (this.avatarUrl.length)
                 writer.writeString(7, this.avatarUrl);
+            if (this.tag.length)
+                writer.writeString(8, this.tag);
             if (!w)
                 return writer.getResultBuffer();
         }
@@ -646,6 +826,9 @@ export namespace commentrpc {
                         break;
                     case 7:
                         message.avatarUrl = reader.readString();
+                        break;
+                    case 8:
+                        message.tag = reader.readString();
                         break;
                     default: reader.skipField();
                 }
@@ -711,12 +894,22 @@ export namespace commentrpc {
                 requestDeserialize: (bytes: Buffer) => GetPostListReq.deserialize(new Uint8Array(bytes)),
                 responseSerialize: (message: GetPostListResp) => Buffer.from(message.serialize()),
                 responseDeserialize: (bytes: Buffer) => GetPostListResp.deserialize(new Uint8Array(bytes))
+            },
+            GetPostById: {
+                path: "/commentrpc.Commentrpc/GetPostById",
+                requestStream: false,
+                responseStream: false,
+                requestSerialize: (message: GetPostByIdReq) => Buffer.from(message.serialize()),
+                requestDeserialize: (bytes: Buffer) => GetPostByIdReq.deserialize(new Uint8Array(bytes)),
+                responseSerialize: (message: GetPostByIdResp) => Buffer.from(message.serialize()),
+                responseDeserialize: (bytes: Buffer) => GetPostByIdResp.deserialize(new Uint8Array(bytes))
             }
         };
         [method: string]: grpc_1.UntypedHandleCall;
         abstract Ping(call: grpc_1.ServerUnaryCall<Request, Response>, callback: grpc_1.sendUnaryData<Response>): void;
         abstract CreatePost(call: grpc_1.ServerUnaryCall<CreatePostReq, CreatePostResp>, callback: grpc_1.sendUnaryData<CreatePostResp>): void;
         abstract GetPostList(call: grpc_1.ServerUnaryCall<GetPostListReq, GetPostListResp>, callback: grpc_1.sendUnaryData<GetPostListResp>): void;
+        abstract GetPostById(call: grpc_1.ServerUnaryCall<GetPostByIdReq, GetPostByIdResp>, callback: grpc_1.sendUnaryData<GetPostByIdResp>): void;
     }
     export class CommentrpcClient extends grpc_1.makeGenericClientConstructor(UnimplementedCommentrpcService.definition, "Commentrpc", {}) {
         constructor(address: string, credentials: grpc_1.ChannelCredentials, options?: Partial<grpc_1.ChannelOptions>) {
@@ -730,6 +923,9 @@ export namespace commentrpc {
         };
         GetPostList: GrpcUnaryServiceInterface<GetPostListReq, GetPostListResp> = (message: GetPostListReq, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<GetPostListResp>, options?: grpc_1.CallOptions | grpc_1.requestCallback<GetPostListResp>, callback?: grpc_1.requestCallback<GetPostListResp>): grpc_1.ClientUnaryCall => {
             return super.GetPostList(message, metadata, options, callback);
+        };
+        GetPostById: GrpcUnaryServiceInterface<GetPostByIdReq, GetPostByIdResp> = (message: GetPostByIdReq, metadata: grpc_1.Metadata | grpc_1.CallOptions | grpc_1.requestCallback<GetPostByIdResp>, options?: grpc_1.CallOptions | grpc_1.requestCallback<GetPostByIdResp>, callback?: grpc_1.requestCallback<GetPostByIdResp>): grpc_1.ClientUnaryCall => {
+            return super.GetPostById(message, metadata, options, callback);
         };
     }
 }

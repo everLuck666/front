@@ -15,11 +15,21 @@ service Commentrpc {
   rpc Ping(Request) returns(Response);
   rpc CreatePost (CreatePostReq) returns (CreatePostResp);
   rpc GetPostList (GetPostListReq) returns (GetPostListResp);
+  rpc GetPostById (GetPostByIdReq) returns (GetPostByIdResp);
+}
+
+message GetPostByIdReq {
+  int64  postId = 1;
+}
+
+message GetPostByIdResp {
+  PostItem postItem = 1;
 }
 
 message CreatePostReq {
   string title = 1;
   string content = 2;
+  string tag = 3;
 }
 
 message CreatePostResp {
@@ -43,4 +53,5 @@ message PostItem {
   int64 categoryId = 5;    // 新增字段
   string createdAt = 6;    // 时间转换为字符串
   string avatarUrl = 7;
+  string tag = 8;
 }

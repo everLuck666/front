@@ -8,5 +8,8 @@ export function middleware(request: NextRequest) {
 //     return NextResponse.redirect(new URL('/login', request.url));
 //   }
 
-  return NextResponse.next();
+const response = NextResponse.next()
+  // 添加滚动控制响应头[7](@ref)
+  response.headers.set('x-scroll-control', 'force-reset')
+  return response
 }

@@ -5,7 +5,7 @@ import { getCommentRpc } from '@/lib/commentrpc';
 import { commentrpc } from '@/stubs/commentrpc';
 import { cookies } from 'next/headers';
 
-export async function POST(request: NextRequest) {
+export async function GET(request: NextRequest) {
   try {
     // 1. 初始化 gRPC 客户端
     const client = getCommentRpc()
@@ -17,16 +17,9 @@ export async function POST(request: NextRequest) {
       );
     });
 
-    // 3. 解析请求体
-    const body = await request.json();
-
     // 5. 执行 RPC 调用（添加元数据）
     const metadata = new Metadata();
     // 在现有代码的元数据设置前添加：
-    const resultString = (await cookies()).get('session')?.value || ''; // 获取服务器端 Cookie
-    const result = JSON.parse(resultString);
-    console.error("*****************8", result?.token)
-    metadata.add('authorization', `Bearer ${result?.token}`); // 注入认证头
     metadata.add('trace-id', 'request_123');
 
     // 等待通道就绪
@@ -37,30 +30,33 @@ export async function POST(request: NextRequest) {
       });
     });
 
+    const searchParams = request.nextUrl.searchParams
+    const postId = searchParams.get('postid')
+
     // 构造请求对象
-    const grpcRequest = new commentrpc.CreatePostReq();
-    grpcRequest.title = body.title;
-    grpcRequest.content = body.content;
-    grpcRequest.tag = body.tag;
+    const grpcRequest = new commentrpc.GetPostByIdReq();
+    grpcRequest.postId = Number(postId);
 
     // 其他字段设置...
 
     // 执行调用（添加元数据）
     const response = await new Promise<any>((resolve, reject) => {
-      client.CreatePost(grpcRequest, metadata, (err, res) => {
+      client.GetPostById(grpcRequest, metadata, (err, res) => {
         err ? reject(err) : resolve(res);
       });
     });
 
+    console.error('看看结果', response?.toObject())
 
-    const { postId } = response?.toObject() || {};
 
-    if (postId) {
+    const { postItem } = response?.toObject() || {};
+
+    if (postItem) {
       return NextResponse.json(
         {
           code: 200,
-          message: '创建帖子成功',
-          redirectTo: '/forum', // 跳转目标路径
+          message: '获取帖子成功',
+          data: postItem,
         },
         {
           status: 201,
@@ -70,7 +66,7 @@ export async function POST(request: NextRequest) {
     } else {
       return NextResponse.json(
         {
-          error: '系统注册错误',
+          error: '系统错误',
         },
         { status: 400 },
       );

@@ -28,7 +28,6 @@ export async function POST(request: NextRequest) {
     // 等待通道就绪
     await new Promise((resolve, reject) => {
       client.waitForReady(Date.now() + 5000, (err) => {
-        console.error('我是事发啊啊啊', err);
         err ? reject(err) : resolve(true);
       });
     });

@@ -1,12 +1,16 @@
+import { ScrollController } from "@/components/scroll-controller";
+
 export default function PostLayout({
     children,
   }: Readonly<{
     children: React.ReactNode;
   }>) {
     return (
-      <div className="mt-16">
+      <ScrollController>
+      <div className="mt-20">
           {children}
       </div>
+      </ScrollController>
     );
   }
   
