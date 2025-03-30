@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import CommentSection from '@/components/comment-comment'
 
 interface Props {
   params: { postId: string }; // 自动捕获动态参数[1,2](@ref)
@@ -49,9 +50,12 @@ export default async function PostDetail({ params }: Props) {
   const result = await getPostById(postId);
 
   return (
-    <div className='w-[80%] mx-auto bg-white pl-2 pr-2 pt-2 pb-2'>
-      <div className='flex flex-row justify-between items-center w-full'>
-        <div className=' text-black font-bold text-[20px] font-semibold'>{result?.title}</div>
+    <div>
+      <div className='w-[80%] mx-auto bg-white pl-2 pr-2 pt-2 pb-2'>
+        <div className='flex flex-row justify-between items-center w-full'>
+          <div className=' text-black font-bold text-[20px] font-semibold'>
+            {result?.title}
+          </div>
           <Image
             src={result?.avatarUrl}
             alt='Next.js logo'
@@ -60,9 +64,21 @@ export default async function PostDetail({ params }: Props) {
             className='!size-[60px] rounded-sm ml-2' // Tailwind 强制尺寸
             priority
           />
+        </div>
+        <div className='flex flex-row items-center'>
+          <div className='text-[rgb(121,128,134)]'>{result?.userId}</div>
+          <div className='w-1 h-1 rounded-full bg-[rgb(204,204,204)] ml-1 mr-1'></div>
+          <div className='text-[rgb(121,128,134)]'>{result?.createdAt}</div>
+        </div>
+        <hr className='my-4 border-t' />
+        <div className='text-black text-[20px] text-base'>
+          {result?.content}
+        </div>
       </div>
-      <hr className="my-4 border-t" />
-      <div className='text-black text-[20px] text-base'>{result?.content}</div>
+
+      <div className=' mt-6'>
+      <CommentSection fatherId={postId}/>
+      </div>
     </div>
   );
 }

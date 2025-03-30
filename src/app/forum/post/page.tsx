@@ -36,6 +36,8 @@ export default function PostPage() {
       
       if (result?.code === 200) {
         router.push(result.redirectTo);
+      } else {
+        router.push(result.redirectTo);
       }
     } catch (error) {
       console.error('提交失败:', error);

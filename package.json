@@ -15,6 +15,7 @@
     "@tiptap/react": "^2.11.5",
     "@tiptap/starter-kit": "^2.11.5",
     "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
     "google-protobuf": "^3.21.4",
     "next": "15.2.3",
     "react": "^19.0.0",

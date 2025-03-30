@@ -16,6 +16,32 @@ service Commentrpc {
   rpc CreatePost (CreatePostReq) returns (CreatePostResp);
   rpc GetPostList (GetPostListReq) returns (GetPostListResp);
   rpc GetPostById (GetPostByIdReq) returns (GetPostByIdResp);
+  rpc AddComments (AddCommentsReq) returns (AddCommentsResp);
+  rpc getCommentsByPostId (GetCommentsReq) returns (GetCommentsResp);
+}
+
+message GetCommentsReq {
+  int64  postId = 1;
+}
+
+message CommentItem {
+  string content = 1;
+  string userId = 2;
+  string createdAt = 3;    // 时间转换为字符串
+  string avatarUrl = 4;
+}
+
+message GetCommentsResp {
+  repeated CommentItem commentList = 1;
+}
+
+message AddCommentsReq {
+  int64 fatherId = 1;
+  string content = 2;
+}
+
+message AddCommentsResp {
+  int64  postId = 1;
 }
 
 message GetPostByIdReq {

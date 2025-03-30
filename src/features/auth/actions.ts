@@ -5,6 +5,7 @@ import { createSession, deleteSession } from './session';
 import { redirect } from 'next/navigation';
 import { Metadata } from '@grpc/grpc-js';
 import { authserve } from '@/stubs/authserve';
+import { cookies } from 'next/headers';
 
 export async function authenticate(prevState: any, formData: FormData) {
   const username = formData.get('username')?.toString();
@@ -36,13 +37,36 @@ export async function authenticate(prevState: any, formData: FormData) {
     });
   });
 
-  const { token } = response?.toObject() || {};
+  console.error('dududududdudu', response?.toObject())
+
+  const { token, refreshToken } = response?.toObject() || {};
 
   // 示例验证逻辑（需替换为实际用户验证）
   if (token) {
-    await createSession({ token });
+    await createSession({ token, refreshToken });
     return redirect('/forum');
   }
 
   return { message: '用户名称或密码错误' };
+}
+
+export async function refreshAuth() {
+    const resultString = (await cookies()).get('session')?.value || ''; // 获取服务器端 Cookie
+    const result = JSON.parse(resultString);
+    const refreshTokenString = result?.refreshToken;
+
+    const response = await fetch(
+      `http://localhost:3000/api/auth/refresh`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          refresh_token: refreshTokenString
+        })
+      },
+    );
+
+    const data = await response.json();
+    const { refreshToken, accessToken } = data?.data || {};
+    await createSession({ token: accessToken, refreshToken: refreshToken });
 }
