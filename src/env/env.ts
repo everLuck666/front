@@ -5,5 +5,5 @@ export const isDev = () => process.env.NEXT_PUBLIC_DEPLOY_ENV === 'development';
 export const isProd = () => process.env.NEXT_PUBLIC_DEPLOY_ENV === 'production';
 
 export const getHost = () => {
-  return isDev() ? 'localhost' : '43.139.247.92';
+  return isDev() ? '127.0.0.1' : '43.139.247.92';
 };

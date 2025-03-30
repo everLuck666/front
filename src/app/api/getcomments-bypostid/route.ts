@@ -23,6 +23,15 @@ export async function GET(request: NextRequest) {
     metadata.add('trace-id', 'request_123');
 
     const resultString = (await cookies()).get('session')?.value || ''; // 获取服务器端 Cookie
+    if (!resultString) {
+      return NextResponse.json(
+        {
+          error: '系统错误',
+          redirectTo: '/login', // 跳转目标路径
+        },
+        { status: 400 },
+      );
+    }
     const result = JSON.parse(resultString);
     metadata.add('authorization', `Bearer ${result?.token}`); // 注入认证头
 

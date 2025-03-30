@@ -12,25 +12,17 @@ interface Comment {
 
 export default function CommentList({ initialComments }: { initialComments: Comment[] }) {
   const [comments, setComments] = useState(initialComments)
-  console.error('=========----CommentListeeeeee',comments, initialComments )
 
   useEffect(() => {
-    const eventSource = new EventSource('/api/comments/stream')
-    eventSource.onmessage = (e) => {
-      setComments(prev => [JSON.parse(e.data), ...prev])
-    }
-    return () => eventSource.close()
-  }, [])
-
-  useEffect(() => {
-    setComments(initialComments);  // 当 initialComments 变化时更新状态
+    setComments(initialComments); 
+    // 当 initialComments 变化时更新状态
   }, [initialComments]); 
 
 
   return (
     <div className="space-y-6">
       {comments.map(comment => (
-        <div key={comment?.userId} className="flex items-start space-x-4">
+        <div className="flex items-start space-x-4">
           <img 
             src={comment.avatarUrl} 
             alt="用户头像"

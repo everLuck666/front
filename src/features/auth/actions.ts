@@ -52,6 +52,7 @@ export async function authenticate(prevState: any, formData: FormData) {
 }
 
 export async function refreshAuth() {
+  try {
     const resultString = (await cookies()).get('session')?.value || ''; // 获取服务器端 Cookie
     const result = JSON.parse(resultString);
     const refreshTokenString = result?.refreshToken;
@@ -70,4 +71,9 @@ export async function refreshAuth() {
     const data = await response.json();
     const { refreshToken, accessToken } = data?.data || {};
     await createSession({ token: accessToken, refreshToken: refreshToken });
+  } catch (error) {
+    console.error('refreshAuth error', error)
+    
+  }
+    
 }
