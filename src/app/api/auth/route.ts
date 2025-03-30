@@ -2,12 +2,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { authserve } from '../../../stubs/authserve';
 import { ChannelCredentials, Metadata, status } from '@grpc/grpc-js';
+import { getHost } from '@/env/env';
 
 export async function POST(request: NextRequest) {
   try {
     // 1. 初始化 gRPC 客户端
     const client = new authserve.AuthserveClient(
-      'localhost:9697',
+      `${getHost()}:9697`,
       ChannelCredentials.createInsecure(),
     );
 

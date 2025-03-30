@@ -2,12 +2,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { myuserrpc } from '../../../stubs/myuserrpc';
 import { ChannelCredentials, Metadata, status } from '@grpc/grpc-js';
+import { getHost } from '@/env/env';
 
 export async function POST(request: NextRequest) {
   try {
     // 1. 初始化 gRPC 客户端
     const client = new myuserrpc.MyuserrpcClient(
-      'localhost:9899',
+      `${getHost()}:9899`,
       ChannelCredentials.createInsecure(),
     );
 

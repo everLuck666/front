@@ -22,6 +22,8 @@ export async function GET(request: NextRequest) {
     // 在现有代码的元数据设置前添加：
     metadata.add('trace-id', 'request_123');
 
+    console.error('dududududud1111')
+
     // 等待通道就绪
     await new Promise((resolve, reject) => {
       client.waitForReady(Date.now() + 5000, (err) => {
@@ -29,6 +31,7 @@ export async function GET(request: NextRequest) {
         err ? reject(err) : resolve(true);
       });
     });
+    console.error('dududududud1111222222')
 
     // 构造请求对象
     const grpcRequest = new commentrpc.GetPostListReq();
@@ -43,6 +46,8 @@ export async function GET(request: NextRequest) {
         err ? reject(err) : resolve(res);
       });
     });
+
+    console.error('dudududuuduud', response)
 
 
     const { list } = response?.toObject() || {};

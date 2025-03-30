@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import { Metadata } from '@grpc/grpc-js';
 import { authserve } from '@/stubs/authserve';
 import { cookies } from 'next/headers';
+import { getHost } from '@/env/env';
 
 export async function authenticate(prevState: any, formData: FormData) {
   const username = formData.get('username')?.toString();
@@ -56,7 +57,7 @@ export async function refreshAuth() {
     const refreshTokenString = result?.refreshToken;
 
     const response = await fetch(
-      `http://localhost:3000/api/auth/refresh`,
+      `http://${getHost()}:3000/api/auth/refresh`,
       {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

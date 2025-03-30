@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
+import { getHost } from '@/env/env';
 
 const schema = z.object({
   username: z
@@ -51,7 +52,7 @@ export default function RegisterPage() {
         const formData = new FormData();
         formData.append('image', file);
         formData.append('title', '3333');
-        const res = await fetch('http://43.139.247.92:9898/upload', {
+        const res = await fetch(`http://${getHost()}:9898/upload`, {
           method: 'POST',
           body: formData,
         });

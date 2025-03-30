@@ -1,13 +1,15 @@
 import Image from 'next/image';
 import CommentSection from '@/components/comment-comment'
+import PageProps from "next/app"
+import { getHost } from '@/env/env';
 
-interface Props {
+interface Props extends PageProps{
   params: { postId: string }; // 自动捕获动态参数[1,2](@ref)
 }
 
-export async function getPostById(postId: string) {
+async function getPostById(postId: string) {
   const response = await fetch(
-    `http://localhost:3000/api/getpostbyid?postid=${postId}`,
+    `http://${getHost()}:3000/api/getpostbyid?postid=${postId}`,
     {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
@@ -15,36 +17,17 @@ export async function getPostById(postId: string) {
   );
 
   const result = await response.json();
-
-  // return result?.data?.list;
-
   const { data } = result || {};
-  const { list } = data || {};
 
   console.error('daataddd', result);
-
   if (result?.code === 200) {
     return result?.data;
   }
 
   return {};
-  // const posts = await prisma.post.findMany({
-  //   include: {
-  //     author: true,
-  //     _count: { select: { comments: true } }
-  //   }
-  // });
-
-  // return posts.map(post => ({
-  //   id: post.id,
-  //   title: post.title,
-  //   author: post.author.name,
-  //   commentsCount: post._count.comments
-  // }));
 }
-export default async function PostDetail({ params }: Props) {
+export default async function PostDetail({ params }: any) {
   // 根据 postId 调用 API 获取详情数据
-
   //  const posts = await getPosts();
   const { postId } = await params;
   const result = await getPostById(postId);

@@ -1,66 +1,49 @@
-import PostList from "@/components/post-list";
+import PostList from '@/components/post-list';
+import { getHost } from '@/env/env';
 
+async function getPosts() {
+  try {
+    const response = await fetch(`http://${getHost()}:3000/api/getposts`, {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+    });
 
-export async function getPosts() {
+    const result = await response?.json();
+    const { data } = result || {};
+    const { list } = data || {};
 
-  const response = await fetch('http://localhost:3000/api/getposts', {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  });
+    if (list) return list;
 
-  
-  const result = await response.json();
-
-  // return result?.data?.list;
-
-  const { data } = result || {};
-  const { list } = data || {};
-  console.error('================----ee------', list)
-
-  if (list) return list;
-
-  // console.error('===========getPosts', result)
-
-    // const posts = await prisma.post.findMany({
-    //   include: { 
-    //     author: true,
-    //     _count: { select: { comments: true } }
-    //   }
-    // });
-  
-    // return posts.map(post => ({
-    //   id: post.id,
-    //   title: post.title,
-    //   author: post.author.name,
-    //   commentsCount: post._count.comments
-    // }));
-
-    return [{
-        id: "323",
-        title: "title",
-        author: "author",
-        commentsCount: 3333
-    }, {
-        id: "32334",
-        title: "title",
-        author: "author",
-        commentsCount: 3333
-    },
-    {
-        id: "324553",
-        title: "title",
-        author: "author",
-        commentsCount: 3333
-    }]
+    return [
+      {
+        id: '323',
+        title: 'title',
+        author: 'author',
+        commentsCount: 3333,
+      },
+      {
+        id: '32334',
+        title: 'title',
+        author: 'author',
+        commentsCount: 3333,
+      },
+      {
+        id: '324553',
+        title: 'title',
+        author: 'author',
+        commentsCount: 3333,
+      },
+    ];
+  } catch (error) {
+    return [];
   }
+}
 export default async function FormPage() {
-    const posts = await getPosts();
-    console.error('FormPage====', posts)
+  const posts = await getPosts();
 
-
-    return (
-        <section className="w-[80%] mx-auto">
-          <PostList posts={posts} />
-        </section>
-      );
+  return (
+    <section className='w-[80%] mx-auto'>
+      <PostList posts={posts} />
+    </section>
+  );
 }

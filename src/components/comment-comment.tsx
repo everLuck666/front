@@ -2,6 +2,7 @@
 
 import CommentList from '@/components/comment-list';
 import NewCommentForm from '@/components/comments-form';
+import { getHost } from '@/env/env';
 import { useEffect, useState } from 'react';
 
 interface CommentSectionProps {
@@ -17,7 +18,7 @@ export default function CommentSection({ fatherId }: CommentSectionProps) {
 
   const tryToFetchData = async () => {
     const comments = await fetch(
-      `http://localhost:3000/api/getcomments-bypostid?postid=${fatherId}`,
+      `http://${getHost()}:3000/api/getcomments-bypostid?postid=${fatherId}`,
       {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
