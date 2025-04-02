@@ -23,7 +23,7 @@ export default function PostList({ posts }: { posts: Post[] }) {
       {posts.map((post) => (
         <Link
           key={post.id}
-          scroll={false} 
+          scroll={false}
           href={`/post/${post.id}`} // 动态路径[2,3](@ref)
           className='block hover:bg-gray-50 cursor-pointer'
         >
@@ -39,6 +39,8 @@ export default function PostList({ posts }: { posts: Post[] }) {
               height={38}
               className='!size-[38px] rounded-sm ml-2' // Tailwind 强制尺寸
               priority
+              // 添加以下属性（Next.js 13+）
+              unoptimized={true} // 如果图片服务器不支持优化，强制直接加载
             />
             <div className='ml-2'>
               <label
