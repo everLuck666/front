@@ -52,6 +52,7 @@ export default function RegisterPage() {
         const formData = new FormData();
         formData.append('image', file);
         formData.append('title', '3333');
+        // const url = `http://${getHost()}:9898/upload`
         const res = await fetch(`http://${getHost()}:9898/upload`, {
           method: 'POST',
           body: formData,
