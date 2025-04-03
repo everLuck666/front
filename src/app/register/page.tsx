@@ -57,6 +57,7 @@ export default function RegisterPage() {
           method: 'POST',
           body: formData,
           cache: 'no-store', // 禁用请求缓存,
+          referrerPolicy: "unsafe-url"
         });
         const result = await res.json();
 
