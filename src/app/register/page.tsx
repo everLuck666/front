@@ -53,7 +53,7 @@ export default function RegisterPage() {
         formData.append('image', file);
         formData.append('title', '3333');
         // const url = `http://${getHost()}:9898/upload`
-        const res = await fetch(`http://${getHost()}:9898/upload`, {
+        const res = await fetch(`https://manycolors.cn/upload`, {
           method: 'POST',
           body: formData,
           cache: 'no-store', // 禁用请求缓存,
