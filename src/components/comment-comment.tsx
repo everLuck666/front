@@ -17,8 +17,9 @@ export default function CommentSection({ fatherId }: CommentSectionProps) {
   }, []);
 
   const tryToFetchData = async () => {
+    // const url =  `http://${getHost()}:3000/api/getcomments-bypostid?postid=${fatherId}`;
     const comments = await fetch(
-      `http://${getHost()}:3000/api/getcomments-bypostid?postid=${fatherId}`,
+      `https://front-sand-tau.vercel.app/api/getcomments-bypostid?postid=${fatherId}`,
       {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
