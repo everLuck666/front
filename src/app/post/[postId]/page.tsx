@@ -13,6 +13,7 @@ async function getPostById(postId: string) {
     {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
+      cache: 'no-store' // 禁用请求缓存,
     },
   );
 

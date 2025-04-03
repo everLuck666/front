@@ -6,6 +6,7 @@ async function getPosts() {
     const response = await fetch(`http://${getHost()}:3000/api/getposts`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
+      cache: 'no-store' // 禁用请求缓存,
     });
 
     const result = await response?.json();

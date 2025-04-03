@@ -28,7 +28,8 @@ export default function NewCommentForm({
         body: JSON.stringify({
           content: contentRef.current?.value,
           postid: fatherId,
-        })
+        }),
+        cache: 'no-store' // 禁用请求缓存,
       })
 
       const result = await response.json();

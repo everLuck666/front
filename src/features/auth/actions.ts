@@ -64,7 +64,8 @@ export async function refreshAuth() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           refresh_token: refreshTokenString
-        })
+        }),
+        cache: 'no-store' // 禁用请求缓存,
       },
     );
 

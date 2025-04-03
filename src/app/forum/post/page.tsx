@@ -27,7 +27,8 @@ export default function PostPage() {
       const response = await fetch('/api/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
+        body: JSON.stringify(data),
+        cache: 'no-store' // 禁用请求缓存,
       });
 
       const result = await response.json();

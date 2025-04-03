@@ -55,6 +55,7 @@ export default function RegisterPage() {
         const res = await fetch(`http://${getHost()}:9898/upload`, {
           method: 'POST',
           body: formData,
+          cache: 'no-store', // 禁用请求缓存,
         });
         const result = await res.json();
 
@@ -77,6 +78,7 @@ export default function RegisterPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
+        cache: 'no-store', // 禁用请求缓存,
       });
 
       const result = await response.json();

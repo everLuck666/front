@@ -22,6 +22,7 @@ export default function CommentSection({ fatherId }: CommentSectionProps) {
       {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
+        cache: 'no-store' // 禁用请求缓存,
       },
     ).then((res) => res.json());
 
